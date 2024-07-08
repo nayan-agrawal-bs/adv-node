@@ -1,0 +1,29 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "clients-db": ["./libs/clients_db/src/index.ts"],
+      "constants": ["./libs/constants/src/index.ts"],
+      "design-web": ["./libs/design-web/index.ts"],
+      "errors": ["./libs/errors/src/index.ts"],
+      "logger": ["./libs/logger/src/index.ts"],
+      "shared": ["./libs/shared/src/index.ts"],
+      "shared/*": ["./libs/shared/src/*"],
+      "auth-strategies": ["./libs/auth-strategies/src/index.ts"],
+    }
+  },
+  "exclude": ["node_modules", "tmp", "scripts/module"]
+}
