@@ -7,7 +7,8 @@ import { TYPES } from '../types';
 import { authValidator } from '../validators/auth.chain';
 import { validationResult } from 'express-validator';
 import { LogTypes, LoggerFactory } from 'logger';
-@controller('/auth')
+import { AuthMiddleware } from '@middlewares/auth.middleware';
+@controller('/auth', 'AuthMiddleware')
 export class AuthController {
   private authService: AuthService;
   private authPolicy: AuthPolicy;
@@ -29,7 +30,7 @@ export class AuthController {
     return res.status(200).json({ message: 'Auth module is working!' });
   }
 
-  @httpPost('/register', ...authValidator.register)
+  @httpPost('/register', ...authValidator.register, AuthMiddleware)
   public async register(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

@@ -22,6 +22,7 @@
       "logger": ["./libs/logger/src/index.ts"],
       "shared": ["./libs/shared/src/index.ts"],
       "shared/*": ["./libs/shared/src/*"],
+      "@middlewares/*": ["./packages/server/src/shared/middlewares/*"],
       "auth-strategies": ["./libs/auth-strategies/src/index.ts"],
     }
   },
