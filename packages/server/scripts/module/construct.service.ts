@@ -84,11 +84,13 @@ export function constructService(
 
 export function constructRepository(
   filePath: string,
-  repositoryName: string
+  repositoryName: string,
+  modelName: string
 ): void {
   const replacements = {
     repository_class_name: repositoryName.toRepositoryClassName(),
     repository_file_name: repositoryName.toFileName(),
+    model_name: modelName.toVarName(),
   };
 
   replaceTemplateValues(filePath, replacements, 'repository_file_name');

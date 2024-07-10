@@ -7,7 +7,7 @@ import { TYPES } from '../types';
 import { authValidator } from '../validators/auth.chain';
 import { validationResult } from 'express-validator';
 import { LogTypes, LoggerFactory } from 'logger';
-@controller('/auth', 'AuthMiddleware')
+@controller('/auth', 'BearerAuthMiddleware')
 export class AuthController {
   private authService: AuthService;
   private authPolicy: AuthPolicy;

@@ -27,7 +27,7 @@ export function create(answers: Record<string, string>): void {
       constructRepository,
       'repositories',
       TemplateFileName.Repository,
-      [answers.repositoryName],
+      [answers.repositoryName, answers.modelName],
     ],
     [constructService, 'services', TemplateFileName.Service, [answers]],
     [constructTypes, 'types', 'index.ts', [answers]],

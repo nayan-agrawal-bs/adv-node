@@ -69,6 +69,14 @@ function generateRelatedQuestions(controllerName: string) {
       validate: (input: string) =>
         input.trim() !== '' || 'Service name cannot be empty',
     },
+    {
+      type: 'input',
+      name: 'modelName',
+      message: 'Enter the name of the model:',
+      default: controllerName,
+      validate: (input: string) =>
+        input.trim() !== '' || 'Model name cannot be empty',
+    },
   ];
 }
 

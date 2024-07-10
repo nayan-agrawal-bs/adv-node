@@ -112,7 +112,7 @@ function handleRepositoryFile(
   const targetPath = getTargetPath(module, 'repositories', fileName);
 
   copyFile(path.resolve(TEMPLATE_DIR, 'repositories', fileName), targetPath);
-  constructRepository(targetPath, args.repositoryName);
+  constructRepository(targetPath, args.repositoryName, args.modelName);
 }
 
 async function createModuleFile(
@@ -125,6 +125,7 @@ async function createModuleFile(
     policyName: fileName,
     repositoryName: fileName,
     serviceName: fileName,
+    modelName: fileName,
   };
 
   switch (fileType) {
@@ -145,13 +146,33 @@ async function createModuleFile(
   }
 }
 
+async function keepCreating() {
+  const response = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'continue',
+      message: 'Do you want to create another file?',
+      default: true,
+    },
+  ]);
+
+  return response.continue;
+}
+
 export async function createExisting(): Promise<void> {
-  try {
-    const directories = getDirectories(MODULES_DIR);
-    const { module, fileType, fileName } = await chooseModule(directories);
-    await createModuleFile(module, fileType, fileName);
-    console.log('File created successfully');
-  } catch (error) {
-    console.error('Error creating module file:', error);
+  let keepContinue = true;
+
+  while (keepContinue) {
+    try {
+      const directories = getDirectories(MODULES_DIR);
+      const { module, fileType, fileName } = await chooseModule(directories);
+      await createModuleFile(module, fileType, fileName);
+      console.log('File created successfully');
+
+      keepContinue = await keepCreating();
+    } catch (error) {
+      console.error('Error creating module file:', error);
+      process.exit(1);
+    }
   }
 }

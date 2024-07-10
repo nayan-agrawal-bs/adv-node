@@ -60,3 +60,172 @@ It will show tasks that you can run with Nx.
 - [Join the community](https://nx.dev/community)
 - [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
 - [Follow us on Twitter](https://twitter.com/nxdevtools)
+
+# Setting Up a MongoDB Replica Set for Local Development
+
+Follow these steps to create a MongoDB replica set in your local environment if you are facing issue with prisma:
+
+## Step 1: Stop the MongoDB Service
+
+If the MongoDB service is currently running, stop it by executing the following command:
+
+```bash
+sudo systemctl stop mongod
+
+```
+
+## Step 2: Modify the MongoDB Configuration File
+
+You need to enable the replica set in the MongoDB configuration file **(/etc/mongod.conf)**.
+
+Open the configuration file using your preferred text editor:
+
+```bash
+sudo nano /etc/mongod.conf
+```
+
+Add the following lines under the replication section:
+
+```bash
+replication:
+  replSetName: "rs0"
+```
+
+## Step 3: Start MongoDB with the Replica Set Configuration
+
+Start MongoDB with the updated configuration:
+
+```bash
+sudo systemctl start mongod
+```
+
+## Step 4: Initialize the Replica Set
+
+Open a new terminal and connect to MongoDB using mongosh:
+
+```bash
+mongosh
+```
+
+Initiate the replica set by running the following command:
+
+```bash
+rs.initiate()
+```
+
+By following these steps, you will have a MongoDB replica set running in your local environment.
+
+# CLI: Creating and Using Modules
+
+Follow these steps to create or use modules using the CLI:
+
+## Creating a New Module
+
+## Step-by-Step Instructions
+
+### Run the Command
+
+To create a new module, execute the following command from root folder directory:
+
+```bash
+cd packages/server/ && yarn create:module
+```
+This command will prompt you with several questions.
+
+**Note:** Ensure all names are in camelCase format to maintain correct file naming conventions.
+
+### Respond to the Prompts
+
+You will be asked to provide the names for various components of the module. For example:
+
+```bash
+? Enter the name of the module: user
+? Enter the name of the controller: user
+```
+
+If you wish to use the same name for the controller and other components, you can simply press Enter to accept the default values:
+
+```bash
+? Enter the name of the policy: (user)
+? Enter the name of the repository: (user)
+? Enter the name of the service: (user)
+? Enter the name of the model: (user)
+```
+
+By following the above steps, you will create a new module with the basic structure in place.
+
+## Using an Existing Module
+
+## Step-by-Step Instructions
+
+### Run the Command
+
+To create a file in an existing module, execute the following command from root folder directory:
+```bash
+cd packages/server/ && yarn create:module
+```
+This command will guide you through several prompts to select the module and file type.
+
+### Respond to the Prompts
+
+You will be asked to choose an existing module and specify the file type you want to create.
+
+Follow the prompts to create files within the selected module.
+
+By following these steps, you can efficiently manage and extend your application's functionality using modules.
+
+# Backend Packages Used
+
+This repository utilizes several important backend packages. Below is a list of these packages along with links to their respective documentation:
+
+1. **[inversify](https://github.com/inversify/InversifyJS)**  
+   Inversify is a powerful and lightweight inversion of control (IoC) container for TypeScript & JavaScript apps.
+
+2. **[inversify-express-utils](https://github.com/inversify/inversify-express-utils)**  
+   Inversify Express Utils provides some utility classes to help you write expressive controllers with InversifyJS and Express.
+
+3. **[Prisma](https://github.com/prisma/prisma)**  
+   Prisma is a modern database toolkit that makes database access easy with type safety and auto-generated query builders.
+
+
+# Additional Points
+
+## How to Register a New Module
+
+To register a new module, follow these steps:
+
+1. Navigate to the `src/modules` folder.
+2. Open the `index.ts` file.
+3. Import the desired module.
+4. Register the module in the container using `container.load(moduleName)`.
+
+## How to Register a Middleware
+
+You can register middleware as shown below. For example, registering the `BearerAuthMiddleware`:
+
+```typescript
+import { AuthMiddleware } from './middlewares/AuthMiddleware';
+
+mainContainer
+  .bind<AuthMiddleware>('BearerAuthMiddleware')
+  .toDynamicValue(() => {
+    return new AuthMiddleware(authStrategy.get('Bearer'));
+  });
+```
+
+### Direct Controller Registration
+You can directly register controllers using decorators. For instance:
+
+```typescript
+import { controller, httpGet } from 'inversify-express-utils';
+
+@controller('/auth', 'BearerAuthMiddleware')
+export class AuthController {
+  // Example of a route handler
+  @httpGet('/')
+  public async index(req: Request, res: Response): Promise<void> {
+    // Implementation logic
+  }
+}
+```
+For more information and examples, refer to the **[inversify-express-utils documentation.](https://github.com/inversify/inversify-express-utils#basemiddleware)**

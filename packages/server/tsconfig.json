@@ -13,5 +13,11 @@
   "compilerOptions": {
     "esModuleInterop": true
   },
-  "exclude": ["scripts"]
+  "exclude": ["scripts"],
+  "ts-node": {
+    "typeCheck": false,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }
