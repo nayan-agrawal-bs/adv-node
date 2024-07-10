@@ -61,7 +61,7 @@ const Sidebar: React.FC = () => {
         </Button>
       </div>
 
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''} w-[260px]`}>
         <div className="h-full bg-white dark:bg-black">
           <div className="flex items-left justify-left py-5">
             <Link
@@ -69,7 +69,7 @@ const Sidebar: React.FC = () => {
               className="main-logo flex items-center justify-center"
             >
               <Image
-                className="ml-[5px] w-[65%]"
+                className="ml-[5px] w-[40px]"
                 src={getImage(IMAGES.NO_IMAGE)}
                 alt="logo"
                 height={65}
