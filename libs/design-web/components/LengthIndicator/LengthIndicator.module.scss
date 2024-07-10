@@ -1,5 +1,5 @@
-@import '../../styles/_variables';
-@import '../../styles/_mixins';
+@import 'shared/assets/styles/_variables.scss';
+@import 'shared/assets/styles/_mixins.scss';
 
 .lengthIndicator {
   margin-top: $spacing-1;
