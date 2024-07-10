@@ -3,7 +3,7 @@ import Loader from '../../components/Loader';
 
 import { Button, Input, Link, Image, Alert } from 'design-web';
 import routes from 'shared/config/routes';
-import { IMAGES, getImage } from 'shared/config/images';
+import IMAGES from 'shared/config/images';
 
 const VerifyAccount: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ const VerifyAccount: React.FC = () => {
           <div className="mx-auto w-full flex flex-col items-center justify-center">
             <a href="#">
               <Image
-                src={getImage(IMAGES.NO_IMAGE)}
+                src={IMAGES.NO_IMAGE}
                 width={110}
                 height={110}
                 alt="logo"

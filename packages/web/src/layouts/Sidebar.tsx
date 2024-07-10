@@ -8,7 +8,7 @@ import moreImage from '../assets/images/more.svg';
 
 import { Button, Link, NavLinks, Image } from 'design-web';
 import routes from 'shared/config/routes';
-import { IMAGES, getImage } from 'shared/config/images';
+import IMAGES from 'shared/config/images';
 
 // Define navigation items
 const navItems = [{ name: 'Home', route: routes.home }];
@@ -70,7 +70,7 @@ const Sidebar: React.FC = () => {
             >
               <Image
                 className="ml-[5px] w-[40px]"
-                src={getImage(IMAGES.NO_IMAGE)}
+                src={IMAGES.NO_IMAGE}
                 alt="logo"
                 height={65}
                 width={54}
@@ -86,7 +86,7 @@ const Sidebar: React.FC = () => {
               >
                 <div className="flex items-center justify-center gap-2">
                   <img
-                    src={getImage(IMAGES.NO_USER)}
+                    src={IMAGES.NO_USER}
                     width={40}
                     height={40}
                     alt="userprofile_logo"

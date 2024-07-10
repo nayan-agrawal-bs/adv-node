@@ -3,7 +3,7 @@ import Loader from '../../components/Loader';
 import { useNavigate } from 'react-router-dom';
 import { Button, Checkbox, Input, Link, Image, Alert } from 'design-web';
 import routes from 'shared/config/routes';
-import { IMAGES, getImage } from 'shared/config/images';
+import IMAGES from 'shared/config/images';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const SignUpPage = () => {
             <div className="mx-auto flex w-full flex-col items-center justify-center">
               <a href="#">
                 <Image
-                  src={getImage(IMAGES.NO_IMAGE)}
+                  src={IMAGES.NO_IMAGE}
                   width={110}
                   height={110}
                   alt="logo"

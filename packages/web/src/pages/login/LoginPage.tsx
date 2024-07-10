@@ -4,7 +4,7 @@ import { useAuth } from 'shared/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Button, Checkbox, Input, Link, Image, Alert } from 'design-web';
 import routes from 'shared/config/routes';
-import { IMAGES, getImage } from 'shared/config/images';
+import IMAGES from 'shared/config/images';
 
 const LoginPage: React.FC = () => {
   const { emitToken } = useAuth();
@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
           <div className="mx-auto w-full flex flex-col items-center justify-center">
             <a href="#">
               <Image
-                src={getImage(IMAGES.NO_IMAGE)}
+                src={IMAGES.NO_IMAGE}
                 width={110}
                 height={110}
                 alt="logo"
