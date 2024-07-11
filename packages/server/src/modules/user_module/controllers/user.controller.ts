@@ -16,7 +16,20 @@ import { TYPES } from '../types';
 import { LogTypes, LoggerFactory } from 'logger';
 import { ValidationMiddleware } from '../../../shared/middlewares/validator.middleware';
 import { idParamValidation, postUser } from '../validators/index.chain';
+import {
+  ApiOperationDelete,
+  ApiOperationGet,
+  ApiOperationPatch,
+  ApiOperationPost,
+  ApiPath,
+} from 'swagger-express-ts';
+import openAPI from './user.openapi';
 
+@ApiPath({
+  path: '/users',
+  name: 'User',
+  security: { basicAuth: [] },
+})
 @controller('/users')
 export class UserController extends BaseHttpController {
   private userService: UserService;
@@ -34,6 +47,7 @@ export class UserController extends BaseHttpController {
     this.logger = loggerFactory.createLogger('UserController');
   }
 
+  @ApiOperationPost(openAPI.create)
   @httpPost('/', ValidationMiddleware.validate(postUser))
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
@@ -45,6 +59,7 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @ApiOperationPatch(openAPI.update)
   @httpPatch('/:id', ValidationMiddleware.validate(idParamValidation))
   public async update(
     @requestParam('id') id: string,
@@ -62,6 +77,7 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @ApiOperationGet(openAPI.getById)
   @httpGet('/:id', ValidationMiddleware.validate(idParamValidation))
   public async getById(
     @requestParam('id') id: string,
@@ -78,6 +94,7 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @ApiOperationDelete(openAPI.delete)
   @httpDelete('/:id', ValidationMiddleware.validate(idParamValidation))
   public async delete(
     @requestParam('id') id: string,

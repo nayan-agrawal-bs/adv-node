@@ -18,7 +18,20 @@ import {
 } from '../validators/index.chain';
 import { PermissionService } from '../services/permission.service';
 import { PermissionPolicy } from '../policies/permission.policy';
+import {
+  ApiOperationDelete,
+  ApiOperationGet,
+  ApiOperationPatch,
+  ApiOperationPost,
+  ApiPath,
+} from 'swagger-express-ts';
+import openAPI from './permission.openapi';
 
+@ApiPath({
+  path: '/permission',
+  name: 'Permission',
+  security: { basicAuth: [] },
+})
 @controller('/permission')
 export class PermissionController extends BaseHttpController {
   private permissionService: PermissionService;
@@ -36,6 +49,7 @@ export class PermissionController extends BaseHttpController {
     this.logger = loggerFactory.createLogger('PermissionController');
   }
 
+  @ApiOperationPost(openAPI.create)
   @httpPost('/', ValidationMiddleware.validate(postPermissionCreate))
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
@@ -47,6 +61,7 @@ export class PermissionController extends BaseHttpController {
     }
   }
 
+  @ApiOperationPatch(openAPI.update)
   @httpPatch('/:id', ValidationMiddleware.validate(idParamValidation))
   public async update(
     @requestParam('id') id: string,
@@ -64,6 +79,7 @@ export class PermissionController extends BaseHttpController {
     }
   }
 
+  @ApiOperationGet(openAPI.getById)
   @httpGet('/:id', ValidationMiddleware.validate(idParamValidation))
   public async getById(
     @requestParam('id') id: string,
@@ -80,6 +96,7 @@ export class PermissionController extends BaseHttpController {
     }
   }
 
+  @ApiOperationDelete(openAPI.delete)
   @httpDelete('/:id', ValidationMiddleware.validate(idParamValidation))
   public async delete(
     @requestParam('id') id: string,

@@ -17,7 +17,20 @@ import { LogTypes, LoggerFactory } from 'logger';
 import { ValidationMiddleware } from '../../../shared/middlewares/validator.middleware';
 import { idParamValidation, postCreate } from '../validators/index.chain';
 import { PermissionMiddleware } from '../../../shared/middlewares/permission.middleware';
+import {
+  ApiOperationDelete,
+  ApiOperationGet,
+  ApiOperationPatch,
+  ApiOperationPost,
+  ApiPath,
+} from 'swagger-express-ts';
+import openAPI from './role.openapi';
 
+@ApiPath({
+  path: '/role',
+  name: 'Role',
+  security: { basicAuth: [] },
+})
 @controller('/role')
 export class RoleController extends BaseHttpController {
   private roleService: RoleService;
@@ -38,6 +51,7 @@ export class RoleController extends BaseHttpController {
     this.permissionMiddleware = permissionMiddleware;
   }
 
+  @ApiOperationPost(openAPI.create)
   @httpPost('/', ValidationMiddleware.validate(postCreate))
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
@@ -48,7 +62,7 @@ export class RoleController extends BaseHttpController {
       next(error);
     }
   }
-
+  @ApiOperationPatch(openAPI.update)
   @httpPatch('/:id', ValidationMiddleware.validate(idParamValidation))
   public async update(
     @requestParam('id') id: string,
@@ -65,7 +79,7 @@ export class RoleController extends BaseHttpController {
       next(error);
     }
   }
-
+  @ApiOperationGet(openAPI.getById)
   @httpGet('/:id', ValidationMiddleware.validate(idParamValidation))
   public async getById(
     @requestParam('id') id: string,
@@ -82,6 +96,7 @@ export class RoleController extends BaseHttpController {
     }
   }
 
+  @ApiOperationDelete(openAPI.delete)
   @httpDelete('/:id', ValidationMiddleware.validate(idParamValidation))
   public async delete(
     @requestParam('id') id: string,
