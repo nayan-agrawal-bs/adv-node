@@ -13,8 +13,8 @@ export class UserPolicy {
   createDto(req: Request): CreateDto {
     const dto = {
       user: {
-        firstName: req.body.user.firstName,
-        lastName: req.body.user.lastName,
+        firstname: req.body.user.firstname,
+        lastname: req.body.user.lastname,
         email: req.body.user.email,
         username: req.body.user.username,
         password: req.body.user.password,
@@ -30,8 +30,8 @@ export class UserPolicy {
   updateDto(req: Request): UpdateDto {
     const dto = {
       user: {
-        firstName: req.body.user?.firstName,
-        lastName: req.body.user?.lastName,
+        firstname: req.body.user?.firstname,
+        lastname: req.body.user?.lastname,
         email: req.body.user?.email,
         username: req.body.user?.username,
         password: req.body.user?.password,

@@ -103,7 +103,9 @@ const LoginPage: React.FC = () => {
                   />
                 </div>
                 <div className="text-primary hover:underline">
-                  <Link href="/ForgotPassword">Forget your Password?</Link>
+                  <Link href={routes.forgotpassword}>
+                    Forget your Password?
+                  </Link>
                 </div>
               </div>
               <Button
@@ -121,7 +123,7 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="text-center text-gray-600">
                 Don&apos;t have a account? &nbsp;
-                <Link href="/SignUp" className="text-primary underline">
+                <Link href={routes.singup} className="text-primary underline">
                   Create One
                 </Link>
               </div>

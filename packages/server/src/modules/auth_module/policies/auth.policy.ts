@@ -1,5 +1,5 @@
-import { Request } from 'express';
-import { IUser } from '../types/IUser';
+import { Request } from '../../../types';
+import { IRegisterUser } from '../types/IRegisterUser';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { AuthRepository } from '../repositories/auth.repository';
@@ -10,12 +10,10 @@ export class AuthPolicy {
   constructor(@inject(TYPES.AuthRepository) authRepository: AuthRepository) {
     this.authRepository = authRepository;
   }
-  public async register(req: Request): Promise<IUser> {
-    const data: IUser = {
-      firstname: req.body.firstname,
+  public async register(req: Request): Promise<IRegisterUser> {
+    const data: IRegisterUser = {
+      firstname: req.body.firstnme,
       lastname: req.body.lastname,
-      jobtitle: req.body.jobtitle,
-      compnay: req.body.compnay,
       email: req.body.email.toLowerCase(),
       password: req.body.password,
     };
@@ -25,5 +23,21 @@ export class AuthPolicy {
       throw new Error('Email already exists');
     }
     return data;
+  }
+
+  public async login(
+    req: Request
+  ): Promise<{ email: string; password: string }> {
+    const credentials = {
+      email: req.body.email.toLowerCase(),
+      password: req.body.password,
+    };
+
+    const user = await this.authRepository.findUserByEmail(credentials.email);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return credentials;
   }
 }

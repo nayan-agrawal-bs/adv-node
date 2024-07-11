@@ -6,8 +6,8 @@ export const TYPES = {
 };
 
 export interface UserDto {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   username: string;
   password: string;
   email: string;

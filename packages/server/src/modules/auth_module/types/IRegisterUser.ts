@@ -1,11 +1,9 @@
-interface IUser {
+interface IRegisterUser {
   firstname: string;
   lastname: string;
-  jobtitle: string;
-  compnay: string;
-  email: string;
   password: string;
   phone?: string;
+  email?: string;
   note?: string;
 }
-export type { IUser };
+export type { IRegisterUser };

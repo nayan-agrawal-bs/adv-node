@@ -7,8 +7,8 @@ import IMAGES from 'shared/config/images';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const [firstName, SetFirstname] = useState('');
-  const [lastName, SetLastname] = useState('');
+  const [firstname, SetFirstname] = useState('');
+  const [lastname, SetLastname] = useState('');
   const [email, setEmail] = useState('');
   const [termcondition, setTermsCondition] = useState(false);
   const [password, setPassword] = useState('');
@@ -70,7 +70,7 @@ const SignUpPage = () => {
                     label="First Name"
                     type="text"
                     className="form-input border-2 focus:border-primary"
-                    value={firstName}
+                    value={firstname}
                     onChange={value => SetFirstname(value)}
                   />
                 </div>
@@ -79,7 +79,7 @@ const SignUpPage = () => {
                     label="Last Name"
                     type="text"
                     className="form-input border-2 focus:border-primary"
-                    value={lastName}
+                    value={lastname}
                     onChange={value => SetLastname(value)}
                   />
                 </div>
@@ -112,7 +112,7 @@ const SignUpPage = () => {
                     />
                   </div>
                   <div className="text-primary hover:underline">
-                    <Link href="/ForgotPassword">Terms & Conditions.</Link>
+                    <Link href="#">Terms & Conditions.</Link>
                   </div>
                 </div>
                 <Button
@@ -130,7 +130,7 @@ const SignUpPage = () => {
                 </div>
                 <div className="text-center text-gray-600">
                   <Link
-                    href="/SignUp"
+                    href={routes.login}
                     className="font-base text-primary hover:text-btnColor-dark "
                   >
                     Log in to your account

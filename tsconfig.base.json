@@ -24,6 +24,7 @@
       "shared/*": ["./libs/shared/src/*"],
       "@middlewares/*": ["./packages/server/src/shared/middlewares/*"],
       "auth-strategies": ["./libs/auth-strategies/src/index.ts"],
+      "mailer": ["./libs/mailer/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp", "scripts/module"]

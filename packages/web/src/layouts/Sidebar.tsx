@@ -65,7 +65,7 @@ const Sidebar: React.FC = () => {
         <div className="h-full bg-white dark:bg-black">
           <div className="flex items-left justify-left py-5">
             <Link
-              href="/"
+              href={routes.home}
               className="main-logo flex items-center justify-center"
             >
               <Image

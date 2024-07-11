@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // src/types/express.d.ts
 
 import { Request } from 'express';

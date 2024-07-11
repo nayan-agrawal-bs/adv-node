@@ -1,4 +1,4 @@
-import { IUser } from './IUser';
+import { IRegisterUser } from './IRegisterUser';
 
 const TYPES = {
   AuthController: Symbol.for('AuthController'),
@@ -6,4 +6,4 @@ const TYPES = {
   AuthPolicy: Symbol.for('AuthPolicy'),
   AuthRepository: Symbol.for('AuthRepository'),
 };
-export { type IUser, TYPES };
+export { type IRegisterUser, TYPES };

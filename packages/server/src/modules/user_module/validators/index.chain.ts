@@ -1,11 +1,11 @@
 import { body, param } from 'express-validator';
 
 const userValidation = [
-  body('user.firstName', 'First name is required & must be a valid string')
+  body('user.firstname', 'First name is required & must be a valid string')
     .isString()
     .trim()
     .notEmpty(),
-  body('user.lastName', 'Last name is required & must be a valid string')
+  body('user.lastname', 'Last name is required & must be a valid string')
     .isString()
     .trim()
     .notEmpty(),
