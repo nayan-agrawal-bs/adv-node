@@ -5,18 +5,21 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import moreImage from '../assets/images/more.svg';
+import logo from '../assets/images/logo.svg';
 
-import { Button, Link, NavLinks, Image } from 'design-web';
+import { Link, NavLinks, Image } from 'design-web';
 import routes from 'shared/config/routes';
-import IMAGES from 'shared/config/images';
+import { useUserContext } from 'shared/hooks/useUserContext';
+
+// import "packages/web/src/assets/css/sidebar.css"
 
 // Define navigation items
-const navItems = [{ name: 'Home', route: routes.home }];
+const navItems = [{ name: 'Home', route: routes.home, icon: 'Home' }];
 
 const BottomNavItems = [
-  { name: 'Help', route: routes.help },
-  { name: 'Setting', route: routes.setting },
-  { name: 'Logout', route: routes.logout },
+  { name: 'Help', route: routes.help, icon: 'Help' },
+  { name: 'Setting', route: routes.setting, icon: 'Setting' },
+  { name: 'Logout', route: routes.logout, icon: 'Logout' },
 ];
 
 // Define Sidebar component
@@ -24,19 +27,19 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   const [showOptions, setshowOptions] = useState(false);
-  const [activeItem, setActiveItem] = useState(null);
+  const [_activeItem, setActiveItem] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user } = useUserContext();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   const handleLogout = async () => {
-    localStorage.clear();
-    navigate('/login');
+    navigate(routes.logout);
   };
 
-  const handleOnClick = (item: any) => {
+  const _handleOnClick = (item: any) => {
     if (item.name == 'Logout') {
       handleLogout();
     }
@@ -54,46 +57,40 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="lg:hidden bg-white p-4">
-        <Button type="button" className="text-2xl" onClick={toggleSidebar}>
-          ☰
-        </Button>
-      </div>
-
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''} w-[260px]`}>
+    <div className={`flex-col hidden lg:flex`}>
+      <div className={`sidebar`}>
         <div className="h-full bg-white dark:bg-black">
-          <div className="flex items-left justify-left py-5">
+          <div className=" lg:flex items-left justify-left py-5">
             <Link
-              href={routes.home}
+              href="/"
               className="main-logo flex items-center justify-center"
             >
               <Image
-                className="ml-[5px] w-[40px]"
-                src={IMAGES.NO_IMAGE}
+                className="ml-[5px] w-[15%]"
+                src={logo}
                 alt="logo"
-                height={65}
-                width={54}
+                height={24}
+                width={24}
               />
             </Link>
           </div>
           <PerfectScrollbar className="relative h-[calc(100vh-80px)]">
             <div className="flex h-full flex-col justify-between">
-              <NavLinks key={'Main'} routes={navItems} iconSize={16} />
+              <NavLinks key={'Main'} routes={navItems} iconSize={10} />
               <div
                 className="flex w-full cursor-pointer items-center justify-between border-t-2 px-1 py-3 my-2"
                 onClick={() => setshowOptions(!showOptions)}
               >
                 <div className="flex items-center justify-center gap-2">
                   <img
-                    src={IMAGES.NO_USER}
+                    src={user?.profileImg}
                     width={40}
                     height={40}
                     alt="userprofile_logo"
                     className="rounded-full h-[40px] object-cover"
                   />
                   <span className="text-base font-semibold hidden lg:inline text-gray">
-                    {'John Doe'}
+                    {user?.firstName} {user?.lastName}
                   </span>
                 </div>
 

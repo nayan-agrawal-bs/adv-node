@@ -7,8 +7,10 @@ export function errorMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  /* eslint-disable no-undef */
-  console.log(error);
+  if (res.headersSent) {
+    return next(error); // Pass the error to the default Express error handler
+  }
+
   if (error instanceof ApiError) {
     return res.status(error.statusCode).send(error.toJson());
   }

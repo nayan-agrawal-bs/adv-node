@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const sourceDir = './icons'; // Source directory containing SVG files
-const targetDir = './components/Icon/assets'; // Target directory for TSX files
+const sourceDir = './src/lib/icons'; // Source directory containing SVG files
+const targetDir = './src/lib/components/Icon/assets'; // Target directory for TSX files
 
 const contentReplacer = content => {
   const replacers = [
@@ -51,7 +51,7 @@ interface ${componentName}Props {
   className?: string;
 }
 
-const ${componentName}: React.FC<${componentName}Props> = ({
+export const ${componentName}: React.FC<${componentName}Props> = ({
   fillColor,
   borderColor,
   height,

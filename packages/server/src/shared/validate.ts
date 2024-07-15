@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { validationResult } from 'express-validator';
 import { Request, Response } from 'express';
 import _ from 'underscore';

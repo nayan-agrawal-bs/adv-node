@@ -1,33 +1,19 @@
 import { SwaggerDefinitionConstant } from 'swagger-express-ts';
 
 export default {
-  create: {
+  updateUser: {
     path: '/',
-    description: 'Create User',
-    summary: 'Create User',
-    parameters: {
-      body: {
-        properties: {
-          firstname: { type: SwaggerDefinitionConstant.STRING },
-          lastname: { type: SwaggerDefinitionConstant.STRING },
-        },
-      },
-    },
-    responses: {
-      200: {
-        description: 'Success',
-      },
-    },
-  },
-  update: {
-    path: '/{id}',
     description: 'Update User',
     summary: 'Update User',
     parameters: {
-      path: {
-        id: {
-          type: SwaggerDefinitionConstant.STRING,
-          description: 'User ID',
+      body: {
+        properties: {
+          firstName: { type: SwaggerDefinitionConstant.STRING },
+          lastName: { type: SwaggerDefinitionConstant.STRING },
+          email: { type: SwaggerDefinitionConstant.STRING },
+          phone: { type: SwaggerDefinitionConstant.STRING },
+          note: { type: SwaggerDefinitionConstant.STRING },
+          profileImg: { type: SwaggerDefinitionConstant.STRING },
         },
       },
     },
@@ -35,42 +21,35 @@ export default {
       200: {
         description: 'Success',
       },
+    },
+    security: {
+      apiKeyHeader: [],
     },
   },
-  getById: {
-    path: '/{id}',
-    description: 'Get Permossion ',
-    summary: 'Get Permossion',
-    parameters: {
-      path: {
-        id: {
-          type: SwaggerDefinitionConstant.STRING,
-          description: 'User ID',
-        },
-      },
-    },
+  getUser: {
+    path: '/',
+    description: 'Get User',
+    summary: 'Get User',
     responses: {
       200: {
         description: 'Success',
       },
+    },
+    security: {
+      apiKeyHeader: [],
     },
   },
-  delete: {
-    path: '/{id}',
-    description: 'Delete Permossion ',
-    summary: 'Delete Permossion',
-    parameters: {
-      path: {
-        id: {
-          type: SwaggerDefinitionConstant.STRING,
-          description: 'User ID',
-        },
-      },
-    },
+  info: {
+    path: '/info',
+    description: 'Check User Module',
+    summary: 'Check User Module',
     responses: {
       200: {
         description: 'Success',
       },
+    },
+    security: {
+      apiKeyHeader: [],
     },
   },
 };

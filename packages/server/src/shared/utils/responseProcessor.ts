@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
 import { Request, Response, NextFunction } from 'express';
 import { SuccessResponse } from './successResponse';
 import { ApiError, BadRequestError } from './apiError';

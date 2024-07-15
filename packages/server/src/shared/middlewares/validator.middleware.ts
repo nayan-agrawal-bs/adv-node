@@ -18,7 +18,8 @@ class ValidationMiddleware {
 
       const errors = Object.entries(result.mapped()).map(([_, value]) => value);
       const validationError = new ValidationError(errors);
-
+      const error = validationError.toJson();
+      console.error('Validation error:', error);
       next(validationError);
     };
   }

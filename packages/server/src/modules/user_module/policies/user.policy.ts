@@ -1,6 +1,6 @@
-import { Request } from 'express';
+import { Request } from '../../../types';
 import { inject, injectable } from 'inversify';
-import { CreateDto, TYPES, UpdateDto } from '../types';
+import { TYPES, IUser } from '../types';
 import { UserRepository } from '../repositories/user.repository';
 
 @injectable()
@@ -10,37 +10,22 @@ export class UserPolicy {
     this.userRepository = userRepository;
   }
 
-  createDto(req: Request): CreateDto {
-    const dto = {
-      user: {
-        firstname: req.body.user.firstname,
-        lastname: req.body.user.lastname,
-        email: req.body.user.email,
-        username: req.body.user.username,
-        password: req.body.user.password,
-      },
-      profile: {
-        bio: req.body.profile.bio,
-      },
+  updateProfile(req: Request): IUser {
+    const user = this.userRepository.findById(req.user.id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const data: IUser = {
+      id: req.user.id,
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      phone: req.body.phone,
+      note: req.body.note,
+      profileImg: req.body.profileImg,
     };
 
-    return dto;
-  }
-
-  updateDto(req: Request): UpdateDto {
-    const dto = {
-      user: {
-        firstname: req.body.user?.firstname,
-        lastname: req.body.user?.lastname,
-        email: req.body.user?.email,
-        username: req.body.user?.username,
-        password: req.body.user?.password,
-      },
-      profile: {
-        bio: req.body.profile?.bio,
-      },
-    };
-
-    return dto;
+    return data;
   }
 }

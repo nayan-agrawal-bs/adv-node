@@ -1,21 +1,25 @@
-import { ReactElement } from 'react';
-import routes from 'shared/config/routes';
+import { ReactElement, lazy, Suspense } from 'react';
 import { RouteObject } from 'react-router-dom';
+import routes from 'shared/config/routes';
 
 import LayoutWrapper from '../components/LayoutWrapper';
-import Login from '../pages/login';
-import ForgotPassword from '../pages/forgotPassword';
-import VerifyAccount from '../pages/verifyAccount';
 import PrivateRoute from './PrivateRoute';
-import SignUpPage from '../pages/signup';
-import Home from '../pages/home';
-import Logout from '../pages/logout';
+
+// Lazy loaded components
+const LoginPage = lazy(() => import('../pages/login'));
+const ForgotPassword = lazy(() => import('../pages/forgotPassword'));
+const VerifyAccount = lazy(() => import('../pages/verifyAccount'));
+const SignUpPage = lazy(() => import('../pages/signup'));
+const Home = lazy(() => import('../pages/home'));
+const Logout = lazy(() => import('../pages/logout'));
+
 interface BaseRoute {
   path: string;
   element: ReactElement;
   layout?: string;
   children?: BaseRoute[];
 }
+
 interface AuthRoute extends BaseRoute {
   path: string;
   layout?: undefined;
@@ -37,7 +41,7 @@ const defaultRoutes: AppRoute[] = [
   },
   {
     path: routes.login,
-    element: <Login />,
+    element: <LoginPage />,
     layout: 'BlankLayout',
   },
   {
@@ -68,9 +72,11 @@ const transformRoutes = (routes: AppRoute[]): RouteObject[] => {
     return {
       path,
       element: layout ? (
-        <LayoutWrapper layout={layout}>{element}</LayoutWrapper>
+        <LayoutWrapper layout={layout}>
+          <Suspense fallback={<div>Loading...</div>}>{element}</Suspense>
+        </LayoutWrapper>
       ) : (
-        element
+        <Suspense fallback={<div>Loading...</div>}>{element}</Suspense>
       ),
       children: children ? transformRoutes(children) : undefined,
     };

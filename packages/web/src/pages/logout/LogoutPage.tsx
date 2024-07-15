@@ -1,12 +1,16 @@
-import React from 'react';
-import { useAuth } from 'shared/hooks/useAuth';
+import React, { useEffect } from 'react';
+import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
+import routes from 'shared/config/routes';
 const LogoutPage: React.FC = () => {
   const navigator = useNavigate();
-  const { emitLogout } = useAuth();
-  emitLogout();
+  const { emitLogout } = useAuthContext();
 
-  navigator('/login');
+  useEffect(() => {
+    emitLogout();
+
+    navigator(routes.login);
+  }, [navigator, emitLogout]);
 
   return (
     <div>

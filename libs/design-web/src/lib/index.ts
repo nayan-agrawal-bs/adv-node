@@ -16,6 +16,7 @@ import Tooltip from './components/Tooltip/Tooltip';
 import FileInput from './components/FileInput/FileInput';
 import Toggle from './components/Toggle/Toggle';
 import { Table, TableProps } from './components/Table';
+import PageLoader from './components/PageLoader/PageLoader';
 
 export {
   Input,
@@ -37,5 +38,6 @@ export {
   FileInput,
   Toggle,
   Table,
+  PageLoader,
   type TableProps,
 };

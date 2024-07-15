@@ -1,6 +1,8 @@
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash/sortBy';
+import Input from '../Input/Input';
+import Icon from '../Icon/Icon';
 
 type ColomnProps = {
   key: string;
@@ -73,17 +75,36 @@ export const Table: React.FC<TableProps> = ({ data, coloums }) => {
   }, [sortStatus]);
 
   return (
-    <div className="panel mt-6">
-      <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-        <h5 className="font-semibold text-lg dark:text-white-light">Search</h5>
-        <div className="ltr:ml-auto rtl:mr-auto">
-          <input
+    <div
+      className="overflow-y-auto mx-5 mt-5 py-3 "
+      style={{
+        maxHeight: 'calc(100vh - 3rem)',
+        padding: '0',
+        borderRadius: '0.5rem',
+      }}
+    >
+      <div className="flex items-center mb-5 justify-end">
+        {' '}
+        {/* Add justify-end to align items to the right */}
+        <button className="btn !mt-5 border-0 bg-primary capitalize text-white py-2.5">
+          Export Selected as VCF
+        </button>
+        <div className="relative ml-4 mt-5 ">
+          {' '}
+          {/* Add ml-4 margin-left for spacing */}
+          <Input
+            name="search"
             type="text"
-            className="form-input w-auto"
+            className="p-2 pl-10 border border-gray-300 rounded-md w-auto"
             placeholder="Search..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => setSearch(e)}
           />
+          <Icon
+            name="Search"
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          />
+          {/* Search icon */}
         </div>
       </div>
       <div className="datatables">

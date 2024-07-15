@@ -19,7 +19,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   };
 
   return (
-    <div className="m-1 flex h-[60px] w-full items-center justify-between rounded-xl bg-purple-BGCOLOR">
+    <div className="m-1 flex h-[60px] w-full items-center justify-between rounded-xl bg-[#EEEEEE]">
       <span className="ml-4 text-sm  font-normal">{label}</span>
       <span className="relative mr-4 h-6 w-12">
         <input
@@ -28,7 +28,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
           checked={isChecked}
           onChange={handleOnChange}
         />
-        <span className="block h-full rounded-full bg-[#EBEDF2] before:absolute before:bottom-1 before:left-1 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-all before:duration-300 peer-checked:bg-primary peer-checked:before:left-7 dark:bg-dark dark:before:bg-white-dark dark:peer-checked:before:bg-white"></span>
+        <span className="block h-full rounded-full bg-[#D9C8F4] before:absolute before:bottom-1 before:left-1 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-all before:duration-300 peer-checked:bg-primary peer-checked:before:left-7 dark:bg-dark dark:before:bg-white-dark dark:peer-checked:before:bg-white"></span>
       </span>
     </div>
   );

@@ -8,7 +8,7 @@ interface DeleteProps {
   className?: string;
 }
 
-const Delete: React.FC<DeleteProps> = ({
+export const Delete: React.FC<DeleteProps> = ({
   fillColor,
   borderColor,
   height,

@@ -47,6 +47,7 @@ const ForgotPassword: React.FC = () => {
 
               <div className="p-0.5">
                 <Input
+                  name="email"
                   label="Email"
                   type="email"
                   className="form-input border-2 focus:border-primary"

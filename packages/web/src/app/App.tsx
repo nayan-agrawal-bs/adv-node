@@ -3,7 +3,7 @@ import Providers from './Providers';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import { appRoutes } from './AppRoutes';
 import Storage, { StorageProvider } from 'shared/helpers/Storage';
-
+import { Toaster } from 'design-web';
 const Routes: React.FC = () => {
   const routing = useRoutes(appRoutes);
   return routing;
@@ -43,6 +43,7 @@ function withProviders(Component: any) {
 export default withProviders(function App() {
   return (
     <BrowserRouter>
+      <Toaster />
       <Routes />
     </BrowserRouter>
   );

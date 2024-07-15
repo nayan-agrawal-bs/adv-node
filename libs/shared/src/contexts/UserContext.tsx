@@ -1,16 +1,28 @@
 import React, { createContext, useState, ReactNode } from 'react';
 
 // Define your user type
+interface UserUpdate {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  note?: string;
+  profileImg?: string;
+}
 interface User {
   id: string;
-  username: string;
   email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  note: string;
+  profileImg: string;
 }
 
 // Define context type
 interface UserContextType {
   user: User | null;
-  setUser: (user: User | null) => void;
+  setUser: (_user: User | null) => void;
 }
 
 const UserContext = createContext<UserContextType>({
@@ -33,5 +45,5 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
-export { UserProvider, UserContext, UserContextType, User };
+export { UserProvider, UserContext, UserContextType, User, UserUpdate };
 export default UserProvider;
