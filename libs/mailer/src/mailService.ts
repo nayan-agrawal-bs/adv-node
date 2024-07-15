@@ -8,6 +8,7 @@ import { MailOption, TEMPLATE_NAME } from './types';
 import mjml from 'mjml';
 
 import WELCOME from './template/welcome';
+import { DummyTransporter } from './dummyTrasporter';
 
 config();
 
@@ -17,6 +18,9 @@ export class MailService {
 
   constructor() {
     switch (process.env.MAIL_SERVICE) {
+      case 'demo':
+        this.transporter = new DummyTransporter().createTransport();
+        break;
       case 'smtp':
         this.transporter = new SmtpTransporter().createTransport();
         break;

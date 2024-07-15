@@ -1,4 +1,5 @@
 import { Request } from '../../../types';
+import { Response } from 'express';
 import { inject } from 'inversify';
 import { v4 as uuidv4 } from 'uuid';
 import AWS from 'aws-sdk';
@@ -60,10 +61,7 @@ export class ImageController
     'FileUploadMiddleware',
     ValidationMiddleware.validate(imageValidator.updateImage)
   )
-  public async update(req: Request & { file: any }) {
-    if (req.file) {
-      console.log('file', req.file);
-    }
+  public async update(req: Request & { file: any }, res: Response) {
     const file = req['file'];
     if (!file) {
       this.json({ message: 'Please upload a file' }, 400);
@@ -77,8 +75,6 @@ export class ImageController
       file.originalname
     )}`;
 
-    console.log('customPath', customPath);
-
     try {
       const s3Params: AWS.S3.PutObjectRequest = {
         Bucket: S3_BUCKET,
@@ -87,10 +83,9 @@ export class ImageController
       };
 
       await this.s3.upload(s3Params).promise();
-      const fileUrl = `${ASSETS_URL}/${customPath}`;
-      console.log('try upload', fileUrl);
 
-      this.json({ message: 'File uploaded successfully', fileUrl }, 200);
+      const fileUrl = `${ASSETS_URL}/${customPath}`;
+      res.status(200).json({ message: 'File uploaded successfully', fileUrl });
     } catch (error) {
       console.error(error);
       this.json({ message: 'Failed to upload file' }, 500);
@@ -104,7 +99,7 @@ export class ImageController
     'FileUploadMiddleware',
     ValidationMiddleware.validate(imageValidator.updateFile)
   )
-  public async updateFiles(req: Request) {
+  public async updateFiles(req: Request, res: Response) {
     const file = req.body.file;
     if (!file) {
       this.json({ message: 'Please upload a file' }, 400);
@@ -128,7 +123,7 @@ export class ImageController
       await this.s3.upload(s3Params).promise();
       const fileUrl = `${ASSETS_URL}/${customPath}`;
 
-      this.json({ message: 'File uploaded successfully', fileUrl }, 200);
+      res.status(200).json({ message: 'File uploaded successfully', fileUrl });
     } catch (error) {
       console.error(error);
       this.json({ message: 'Failed to upload file' }, 500);

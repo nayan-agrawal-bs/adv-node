@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  email              String  @unique
-  username           String?
-  password           String
-  verification_token String?
-  verification_OTP   String?
-  isActive           Boolean @default(false)
-  isPremium          Boolean @default(false)
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  email            String    @unique
+  username         String?
+  password         String
+  reset_token      String?   @unique
+  reset_token_date DateTime?
+  verification_OTP String?
+  isActive         Boolean   @default(false)
+  isVerified       Boolean   @default(false)
 
   sessions         Session[]
   UserProfile      UserProfile[]
@@ -36,6 +37,8 @@ model UserLoginHistory {
   updatedAt DateTime? @updatedAt
 
   user User @relation(fields: [userId], references: [id])
+
+  @@map("login_history")
 }
 
 model Session {
@@ -53,17 +56,20 @@ model Session {
 }
 
 model UserProfile {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String  @unique @db.ObjectId
-  firstname String
-  lastname  String
-  phone     String?
-  note      String?
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String  @unique @db.ObjectId
+  firstName  String
+  lastName   String
+  phone      String?
+  note       String?
+  profileImg String?
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
   user User @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
 }
 
 model Permission {

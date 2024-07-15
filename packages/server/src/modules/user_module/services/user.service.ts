@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateDto, TYPES, UpdateDto } from '../types';
+import { TYPES, IUser } from '../types';
 
 @injectable()
 export class UserService {
@@ -9,19 +9,15 @@ export class UserService {
     this.userRepository = userRepository;
   }
 
-  async create(user: CreateDto) {
-    return await this.userRepository.create(user);
+  async update(user: IUser) {
+    return await this.userRepository.update(user);
   }
 
   async findById(id: string) {
-    return await this.userRepository.findById(id);
-  }
-
-  async update(id: string, dto: UpdateDto) {
-    return await this.userRepository.update(id, dto);
-  }
-
-  async delete(id: string) {
-    return await this.userRepository.delete(id);
+    const data = await this.userRepository.findById(id);
+    if (!data) {
+      throw new Error('User not found');
+    }
+    return data;
   }
 }

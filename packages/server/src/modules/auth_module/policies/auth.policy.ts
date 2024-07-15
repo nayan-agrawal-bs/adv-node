@@ -12,8 +12,8 @@ export class AuthPolicy {
   }
   public async register(req: Request): Promise<IRegisterUser> {
     const data: IRegisterUser = {
-      firstname: req.body.firstnme,
-      lastname: req.body.lastname,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email.toLowerCase(),
       password: req.body.password,
     };
@@ -39,5 +39,26 @@ export class AuthPolicy {
     }
 
     return credentials;
+  }
+
+  public async forgotPassword(req: Request) {
+    const user = await this.authRepository.findUserByEmail(req.body.email);
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    return user;
+  }
+
+  public async resetPassword(req: Request, expirty) {
+    const user = await this.authRepository.findUserByToken(
+      req.body.token,
+      expirty
+    );
+    if (!user) {
+      throw new Error('Invalid token');
+    }
+
+    return user;
   }
 }

@@ -21,9 +21,9 @@ export class AuthMiddleware extends BaseMiddleware {
   ): Promise<void> {
     try {
       await this.authStrategy.authenticate(req, res);
-      next();
-    } catch (error) {
-      next(error);
+      return next();
+    } catch (err) {
+      return next(err);
     }
   }
 }

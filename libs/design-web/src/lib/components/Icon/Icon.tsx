@@ -5,6 +5,7 @@ interface BaseIconProps {
   height?: number;
   width?: number;
   fillColor?: string;
+  selectedFillColor?: string;
   borderColor?: string;
   isHovered?: boolean;
   className?: string;
@@ -15,7 +16,7 @@ interface IconProps extends BaseIconProps {
   name: string;
 }
 
-const defaultIconSize = 24;
+const defaultIconSize = 10;
 const defaultIconColor = '#717171';
 const defaultIconStroke = '#717171';
 
@@ -27,6 +28,7 @@ const IconComponent: React.FC<IconProps> = ({
   height = defaultIconSize,
   width = defaultIconSize,
   fillColor,
+  selectedFillColor,
   borderColor,
   isHovered,
   className,
@@ -72,16 +74,6 @@ const IconComponent: React.FC<IconProps> = ({
     importDynamicComponents();
   }, [name]); // Dependency on name ensures components are reloaded if name changes
 
-  console.log(
-    'IconComponent',
-    height,
-    width,
-    fillColor,
-    name,
-    isHovered,
-    className
-  );
-
   return (
     <div
       onMouseEnter={onMouseEnterHandler}
@@ -94,7 +86,7 @@ const IconComponent: React.FC<IconProps> = ({
             <SelectDynamicComponent
               height={height}
               width={width}
-              fillColor={fillColor || defaultSelectedIconColor}
+              fillColor={selectedFillColor || defaultSelectedIconColor}
               borderColor={borderColor || defaultSelectedIconStroke}
               className={className}
               key={`selected-${name}`}

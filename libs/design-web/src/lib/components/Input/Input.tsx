@@ -1,135 +1,81 @@
-import React, {
-  useImperativeHandle,
-  forwardRef,
-  useRef,
-  FocusEventHandler,
-  ChangeEvent,
-} from 'react';
-
+import React, { forwardRef, useRef, ChangeEvent } from 'react';
 import styles from './Input.module.scss';
+import Icon from '../Icon/Icon';
 
 export type InputProps = {
-  /** Function that returns value and field name  */
-  onChange: (value: string, fieldname: string) => void;
-  /** If exist on pressing enter will execute onSubmit func  */
-  onSubmit?: () => void;
-  /** Event when input is unfocused */
-  onBlur?: FocusEventHandler<HTMLInputElement>;
-  onFocus?: (e: any) => void;
-  onClear?: () => void;
-  onKeyPress?: (e: any) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  style?: React.CSSProperties;
-  inputClassName?: string;
-  inputWrapperClassName?: string;
-  /** Make input expand as much as parent container  */
-  maxExpand?: boolean;
-  className?: string;
-  /** Identifier  */
-  fieldName?: string;
-  value: string | number | null | undefined;
-  /** extra input props like type, etc.  */
-  input?: React.HTMLProps<HTMLInputElement>;
-  /** Label will be shown above input field  */
+  name: string;
   label?: string;
-  /** Error array of string. Will show all errors below the field.  */
-  error?: string[] | null;
-  /** Icon will be placed on the right side  */
-  iconRight?: boolean;
-  /** Icon name  */
-  icon?: string;
-  iconType?: 'fal' | 'far' | 'fab';
+  value?: string;
   type?: 'text' | 'email' | 'password' | 'number' | 'tel';
   placeholder?: string;
-  disabled?: boolean;
-  success?: string | boolean | null;
-  showSuccess?: boolean;
-  showClear?: boolean;
-  maxLength?: number;
-  minLength?: number;
-  showLengthIndicator?: boolean;
-  /* min and max are legacy props */
-  min?: number;
-  max?: number;
-  autoComplete?: boolean;
-  dataCy?: string;
-  helperText?: string;
-  boldBorder?: boolean;
-  ariaLabel?: string;
-  readOnly?: boolean;
-  fixedLabel?: boolean;
-  rightText?: string;
-  autoFocus?: boolean;
   isRequired?: boolean;
+  className?: string;
+  onChange?: (_value: string, _fieldName?: string) => void;
   validation?: {
     required?: string;
     minLength?: { value: number; message: string };
     maxLength?: { value: number; message: string };
     pattern?: { value: RegExp; message: string };
   };
+  iconName?: string;
+  iconPosition?: 'left' | 'right';
+  ref?: any;
 };
 
-const Input = forwardRef(
-  (
-    {
-      className,
-      error,
-      label,
-      fieldName,
-      maxExpand,
-      placeholder = '',
-      style = {},
-      type = 'text',
-      fixedLabel = false,
-      isRequired,
-      value,
-      onChange,
-    }: InputProps,
-    ref: any
-  ) => {
+const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
+  ({
+    label,
+    name,
+    value,
+    type = 'text',
+    placeholder = '',
+    isRequired = false,
+    onChange,
+    className,
+    iconName,
+    iconPosition,
+  }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(ref, () => ({
-      focus: () => {
-        if (inputRef?.current) {
-          inputRef.current.focus();
-        }
-      },
-      blur: () => {
-        if (inputRef?.current) {
-          inputRef.current.blur();
-        }
-      },
-    }));
-
-    /* State management */
-    const hasError = Array.isArray(error) && error.length > 0;
-
-    const requiredFieldAsteriskSymbol = '*';
-
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
-      onChange(e.target.value, fieldName || '');
+      if (onChange) {
+        onChange(e.target.value, name || '');
+      }
     }
 
     return (
       <>
-        <label htmlFor={label} className={styles.InputLabel}>
-          {label}
-          {isRequired && (
-            <span className={styles.InputLabelRequiredAstrisk}>
-              {requiredFieldAsteriskSymbol}
-            </span>
-          )}
-        </label>
+        {label && (
+          <label htmlFor={name} className={styles.InputLabel}>
+            {label}
+            {isRequired && (
+              <span className={styles.InputLabelRequiredAstrisk}>*</span>
+            )}
+          </label>
+        )}
         <div className={styles.InputWrapper}>
           <input
-            id={label}
+            ref={inputRef}
+            id={name}
+            name={name}
             placeholder={placeholder}
             type={type}
-            className="form-input border-2 focus:border-primary"
-            value={value ? value : ''}
+            className={`form-input border-2 focus:border-primary ${className} ${
+              iconName
+                ? 'placeholder:tracking-wider ltr:pl-12 rtl:pr-12 peer px-8 py-2 '
+                : ''
+            }`}
+            value={value}
             onChange={handleChange}
           />
+          {iconName && (
+            <button
+              type="button"
+              className={`text-dark/70 absolute ltr:right-1 rtl:left-1 inset-y-0 my-auto w-9 h-9 p-0 flex items-center justify-center peer-focus:text-primary `}
+            >
+              <Icon name={iconName} height={24} width={24} />
+            </button>
+          )}
         </div>
       </>
     );

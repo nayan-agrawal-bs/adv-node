@@ -1,7 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { PrismaClient, extendUser } from 'clients-db';
 import { PrismaClientSymbol } from 'clients-db';
-import { CreateDto, UpdateDto } from '../types';
+import { IUser } from '../types';
+import { omitEmpty } from '../../../shared/utils/helper';
+import _ from 'underscore';
 
 @injectable()
 export class UserRepository {
@@ -11,39 +13,52 @@ export class UserRepository {
     this._prisma = extendUser.call(prisma);
   }
 
-  async create(dto: CreateDto) {
-    return await this._prisma.user.create({
-      data: {
-        ...dto.user,
-      },
-    });
-  }
-
   async findById(id: string) {
-    return await this._prisma.user.findById(id);
-  }
-
-  async update(id: string, dto: UpdateDto) {
-    return await this._prisma.user.update({
+    const user = await this._prisma.user.findFirst({
       where: {
-        id: id,
-      },
-      data: {
-        ...dto.user,
+        id,
       },
     });
-  }
-
-  async delete(id: string) {
-    await this._prisma.userProfile.delete({
+    const profile = await this._prisma.userProfile.findFirst({
       where: {
         userId: id,
       },
     });
-    return await this._prisma.user.delete({
+
+    return {
+      ..._.omit(user, ['password', 'reset_token', 'verification_OTP']),
+      ..._.omit(profile, ['id']),
+    };
+  }
+
+  async update(data: IUser) {
+    if (data.email) {
+      await this._prisma.user.update({
+        where: {
+          id: data.id,
+        },
+        data: {
+          email: data.email,
+        },
+      });
+    }
+
+    const user = await this._prisma.user.findFirst({
       where: {
-        id: id,
+        id: data.id,
       },
     });
+
+    const profile = await this._prisma.userProfile.update({
+      where: {
+        userId: data.id,
+      },
+      data: omitEmpty(_.omit(data, ['email', 'id'])),
+    });
+
+    return {
+      ..._.omit(user, ['password', 'reset_token', 'verification_OTP']),
+      ..._.omit(profile, ['id']),
+    };
   }
 }

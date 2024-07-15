@@ -8,12 +8,19 @@ import { PermissionController } from './controllers/permission.controller';
 import { PermissionPolicy } from './policies/permission.policy';
 import { PermissionRepository } from './repositories/permission.repository';
 import { PermissionService } from './services/permission.service';
+import { interfaces, TYPE } from 'inversify-express-utils';
 
 const roleModule = new ContainerModule((bind): void => {
-  bind<RoleController>(TYPES.RoleController).to(RoleController);
-  bind<PermissionController>(TYPES.PermissionController).to(
-    PermissionController
-  );
+  bind<interfaces.Controller>(TYPE.Controller)
+    .to(RoleController)
+    .inSingletonScope()
+    .whenTargetNamed(TYPES.RoleController);
+
+  bind<interfaces.Controller>(TYPE.Controller)
+    .to(PermissionController)
+    .inSingletonScope()
+    .whenTargetNamed(TYPES.PermissionController);
+
   bind<RoleService>(TYPES.RoleService).to(RoleService).inSingletonScope();
   bind<PermissionService>(TYPES.PermissionService)
     .to(PermissionService)

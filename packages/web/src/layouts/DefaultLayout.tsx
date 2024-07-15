@@ -1,18 +1,18 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import BaseLayout from './BaseLayout';
 import { useTheme } from 'shared/hooks/useTheme';
-import Footer from './Footer';
-import { useAuth } from 'shared/hooks/useAuth';
+// import Footer from './Footer';
+import { useAuthContext } from 'shared/hooks/useAuthContext';
 import Sidebar from './Sidebar';
-import Loader from '../components/Loader';
-import { Button, Icon } from 'design-web';
+
+import { Button, Icon, PageLoader } from 'design-web';
+import MobileNav from './MobileNav';
 
 const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { theme } = useTheme();
-  const { isAuthenticated, isLoading } = useAuth();
-
+  const { isLoading } = useAuthContext();
   const [showTopButton, setShowTopButton] = useState(false);
 
   const onScrollHandler = () => {
@@ -46,10 +46,10 @@ const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
         {/* screen loader */}
         {isLoading && (
           <div className="screen_loader fixed inset-0 bg-[#fafafa] dark:bg-[#060818] z-[60] grid place-content-center animate__animated">
-            <Loader />
+            <PageLoader />
           </div>
         )}
-        <div className="fixed bottom-6 ltr:right-6 rtl:left-6 z-50">
+        <div className="fixed bottom-6 ltr:right-6 rtl:left-6 right-0 z-50">
           {showTopButton && (
             <Button
               type="button"
@@ -66,20 +66,25 @@ const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
         {/* END APP SETTING LAUNCHER */}
 
         <div
-          className={`${theme.navbar} main-container text-black dark:text-white-dark min-h-screen flex`}
+          className={`${theme.navbar} flex justify-between main-container text-black dark:text-white-dark min-h-screen`}
         >
           {/* BEGIN SIDEBAR */}
-          <Sidebar />
+          <div className="fixed md:w-[18%]">
+            <Sidebar />
+          </div>
           {/* END SIDEBAR */}
 
-          <div className="main-content flex flex-col min-h-screen w-full">
+          <div className="main-content flex flex-col min-h-screen w-full lg:w-[82%] absolute right-0 top-0">
             {/* BEGIN TOP NAVBAR */}
+
             {/* <Header /> */}
             {/* END TOP NAVBAR */}
-
+            <div className="block lg:hidden">
+              <MobileNav />
+            </div>
             {/* BEGIN CONTENT AREA */}
             <Suspense>
-              <div className={`${theme.animation} p-6 animate__animated`}>
+              <div className={`${theme.animation} p-1 animate__animated`}>
                 {children}
               </div>
             </Suspense>
@@ -87,7 +92,7 @@ const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
           </div>
         </div>
         {/* BEGIN FOOTER */}
-        <Footer />
+        {/* <Footer /> */}
         {/* END FOOTER */}
       </div>
     </BaseLayout>

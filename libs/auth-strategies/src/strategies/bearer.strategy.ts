@@ -31,14 +31,18 @@ export class BearerStrategy implements AuthStrategy {
     req.user = decoded;
   }
 
-  async token(payload: any) {
-    const token = await this.promisifySign(payload, this.options['secret']);
+  async token(payload: any, additionalOption?: any) {
+    const token = await this.promisifySign(
+      payload,
+      this.options['secret'],
+      additionalOption
+    );
     return token;
   }
 
-  private promisifySign(payload: any, secret: string) {
+  private promisifySign(payload: any, secret: string, options?: any) {
     return new Promise((resolve, reject) => {
-      sign(payload, secret, {}, (err, token) => {
+      sign(payload, secret, options, (err, token) => {
         if (err) reject(err);
         else resolve(token);
       });

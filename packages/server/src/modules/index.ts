@@ -36,6 +36,7 @@ mainContainer.load(mailerModule);
 mainContainer
   .bind<PermissionMiddleware>('PermissionMiddleware')
   .to(PermissionMiddleware);
+
 mainContainer
   .bind<ValidationMiddleware>('ValidationMiddleware')
   .to(ValidationMiddleware);

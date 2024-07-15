@@ -2,9 +2,10 @@ import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   className: string;
   type: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,9 +13,15 @@ const Button: React.FC<ButtonProps> = ({
   children,
   className,
   type,
+  disabled,
 }) => {
   return (
-    <button onClick={onClick} type={type} className={className}>
+    <button
+      onClick={onClick}
+      type={type}
+      className={className}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

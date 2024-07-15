@@ -1,19 +1,16 @@
-/* eslint-disable no-undef */
 import 'reflect-metadata';
 import * as winston from 'winston';
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { mainContainer } from './modules';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import { config } from 'dotenv';
 import { MiddlewareConfig } from './shared/middlewares/middlewareConfig';
 import * as swagger from 'swagger-express-ts';
 
+import { CONFIG } from './config';
 import { errorMiddleware } from './shared/middlewares/error.middleware';
 import { SwaggerDefinitionConstant } from 'swagger-express-ts';
-
-import { CONFIG } from './config';
-
 /** Load Envrionment Variables form .env file */
 config();
 
@@ -31,12 +28,13 @@ server
       swagger.express({
         definition: {
           info: {
-            title: 'Boilerplate API',
+            title: 'BigStepTech API',
             version: '1.0',
           },
           externalDocs: {
             url: 'https://localhost:3001',
           },
+          schemes: ['http', 'https'],
           securityDefinitions: {
             apiKeyHeader: {
               type: SwaggerDefinitionConstant.Security.Type.API_KEY,
@@ -54,7 +52,7 @@ const app = server.build();
 
 app
   .listen(CONFIG.PORT, () =>
-    console.log(`The server is running on port ${CONFIG.PORT}`)
+    console.log(`The server is running on http://localhost:${CONFIG.PORT}`)
   )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .on('error', (error: any) => {

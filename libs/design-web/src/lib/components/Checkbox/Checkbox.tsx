@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type CheckboxProps = {
+  name: string;
   label: string;
-  value: boolean;
+  value?: boolean;
   className?: string;
-  onChange: (value: boolean) => void;
+  onChange?: (_value: boolean) => void;
 };
 
 const Checkbox: React.FC<CheckboxProps> = ({
@@ -12,14 +13,19 @@ const Checkbox: React.FC<CheckboxProps> = ({
   value,
   className,
   onChange,
+  name,
 }) => {
   const onChangeHandler = (e: any) => {
-    onChange(e.target.checked);
+    if (onChange) {
+      onChange(e.target.checked);
+    }
   };
 
   return (
     <>
       <input
+        name={name}
+        id={name}
         type="checkbox"
         checked={value}
         onChange={onChangeHandler}

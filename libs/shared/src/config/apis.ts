@@ -6,24 +6,30 @@ const HttpMethod = {
 } as const;
 
 export default {
+  UPLOAD: {
+    IMAGE: { method: HttpMethod.POST, url: '/upload/images' },
+    FILE: { method: HttpMethod.POST, url: '/upload/files' },
+  },
   AUTH: {
     INFO: { method: HttpMethod.GET, url: '/auth/info' },
     LOGIN: { method: HttpMethod.POST, url: '/auth/login' },
+    REGISTER: { method: HttpMethod.POST, url: '/auth/register' },
+    FORGOT_PASSWORD: { method: HttpMethod.POST, url: '/auth/forgot_password' },
   },
   USER: {
-    CREATE: { method: HttpMethod.POST, url: '/user' },
-    UPDATE: (userId: string) => ({
+    CREATE: { method: HttpMethod.POST, url: '/users' },
+    UPDATE: {
       method: HttpMethod.PUT,
-      url: `/user/${userId}`,
-    }),
+      url: `/users`,
+    },
     DELETE: (userId: string) => ({
       method: HttpMethod.DELETE,
-      url: `/user/${userId}`,
+      url: `/users/${userId}`,
     }),
-    GET_ALL: { method: HttpMethod.GET, url: '/user' },
-    GET: (userId: string) => ({
+    GET_ALL: { method: HttpMethod.GET, url: '/users' },
+    GET: () => ({
       method: HttpMethod.GET,
-      url: `/user/${userId}`,
+      url: `/users/`,
     }),
   },
 } as const;

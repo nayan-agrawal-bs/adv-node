@@ -15,6 +15,9 @@ export class AuthRepository {
       where: {
         email: email.toLowerCase(),
       },
+      include: {
+        UserProfile: true,
+      },
     });
   }
 
@@ -40,7 +43,7 @@ export class AuthRepository {
       },
     });
 
-    return { ..._.omit(user, ['password']), ..._.omit(profile, 'id') };
+    return { ...user, ..._.omit(profile, 'id') };
   }
 
   public async registerUser(data: IRegisterUser) {
@@ -54,15 +57,58 @@ export class AuthRepository {
 
     const profile = await this.prisma.userProfile.create({
       data: {
-        firstname: data.firstname,
-        lastname: data.lastname,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        note: data.note,
         userId: user.id,
       },
     });
 
     return {
-      ..._.omit(user, ['password']),
+      ..._.omit(user, ['password', 'reset_token', 'verification_OTP']),
       ..._.omit(profile, 'id'),
     };
+  }
+  public async forgotPassword(id: string, token: string) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        reset_token: token,
+        reset_token_date: new Date(),
+      },
+    });
+
+    return { ...user };
+  }
+
+  public async findUserByToken(token: string, exprity: number) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        reset_token: token,
+        reset_token_date: {
+          lte: new Date(new Date().getTime() + 60 * 60 * exprity),
+        },
+      },
+    });
+
+    return { ...user };
+  }
+
+  public async resetPassword(token: string, password: string) {
+    const hashPassword = await bcrypt.hash(password, 10);
+    return await this.prisma.user.update({
+      where: {
+        reset_token: token,
+      },
+      data: {
+        password: hashPassword,
+        reset_token: null,
+        reset_token_date: null,
+        updatedAt: new Date(),
+      },
+    });
   }
 }

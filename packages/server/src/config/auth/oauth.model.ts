@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import {
   Client,
   User,
@@ -78,17 +78,17 @@ const model: Model = {
 
   saveToken(
     token: Token,
-    client: Client,
-    user: User,
-    callback?: Callback<Token>
+    _client: Client,
+    _user: User,
+    _callback?: Callback<Token>
   ): Promise<Token | Falsey> {
     return Promise.resolve(token);
   },
 
   verifyScope(
-    token: Token,
-    scope: string | string[],
-    callback?: Callback<boolean>
+    _token: Token,
+    _scope: string | string[],
+    _callback?: Callback<boolean>
   ): Promise<boolean> {
     return Promise.resolve(true);
   },

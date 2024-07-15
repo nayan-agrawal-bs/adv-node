@@ -1,13 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
 import { inject } from 'inversify';
+import { Request } from '../../../types';
 import {
   controller,
   httpGet,
-  httpPatch,
-  httpPost,
-  httpDelete,
-  requestParam,
   BaseHttpController,
+  interfaces,
+  httpPut,
 } from 'inversify-express-utils';
 
 import { UserService } from '../services/user.service';
@@ -15,15 +13,9 @@ import { UserPolicy } from '../policies/user.policy';
 import { TYPES } from '../types';
 import { LogTypes, LoggerFactory } from 'logger';
 import { ValidationMiddleware } from '../../../shared/middlewares/validator.middleware';
-import { idParamValidation, postUser } from '../validators/index.chain';
-import {
-  ApiOperationDelete,
-  ApiOperationGet,
-  ApiOperationPatch,
-  ApiOperationPost,
-  ApiPath,
-} from 'swagger-express-ts';
+import userValidator from '../validators/index.chain';
 import openAPI from './user.openapi';
+import { ApiOperationGet, ApiOperationPut, ApiPath } from 'swagger-express-ts';
 
 @ApiPath({
   path: '/users',
@@ -31,7 +23,10 @@ import openAPI from './user.openapi';
   security: { basicAuth: [] },
 })
 @controller('/users')
-export class UserController extends BaseHttpController {
+export class UserController
+  extends BaseHttpController
+  implements interfaces.Controller
+{
   private userService: UserService;
   private userPolicy: UserPolicy;
   private logger;
@@ -47,67 +42,41 @@ export class UserController extends BaseHttpController {
     this.logger = loggerFactory.createLogger('UserController');
   }
 
-  @ApiOperationPost(openAPI.create)
-  @httpPost('/', ValidationMiddleware.validate(postUser))
-  public async create(req: Request, res: Response, next: NextFunction) {
-    try {
-      const dto = this.userPolicy.createDto(req);
-      const result = await this.userService.create(dto);
-      return this.json(result, 200);
-    } catch (err) {
-      next(err);
-    }
+  /**
+   * Info
+   * @param req
+   * @param res
+   * @returns
+   */
+  @ApiOperationGet(openAPI.info)
+  @httpGet('/info')
+  public async info() {
+    this.logger.info('User module is working!');
+    return this.json({ message: 'User module is working!' }, 200);
   }
 
-  @ApiOperationPatch(openAPI.update)
-  @httpPatch('/:id', ValidationMiddleware.validate(idParamValidation))
-  public async update(
-    @requestParam('id') id: string,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const dto = this.userPolicy.updateDto(req);
-      const result = await this.userService.update(id, dto);
+  @ApiOperationPut(openAPI.updateUser)
+  @httpPut(
+    '/',
+    'BearerAuthMiddleware',
+    ValidationMiddleware.validate(userValidator.updateUser)
+  )
+  public async update(req: Request) {
+    const user = this.userPolicy.updateProfile(req);
 
-      return this.json(result, 200);
-    } catch (err) {
-      next(err);
-    }
+    const result = await this.userService.update(user);
+
+    return this.json(
+      { data: result, message: 'User Updated Sucessfully' },
+      200
+    );
   }
 
-  @ApiOperationGet(openAPI.getById)
-  @httpGet('/:id', ValidationMiddleware.validate(idParamValidation))
-  public async getById(
-    @requestParam('id') id: string,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const result = await this.userService.findById(id);
+  @ApiOperationGet(openAPI.getUser)
+  @httpGet('/', 'BearerAuthMiddleware')
+  public async getById(req: Request) {
+    const result = await this.userService.findById(req.user.id);
 
-      return this.json(result, 200);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  @ApiOperationDelete(openAPI.delete)
-  @httpDelete('/:id', ValidationMiddleware.validate(idParamValidation))
-  public async delete(
-    @requestParam('id') id: string,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const result = await this.userService.delete(id);
-
-      return res.status(200).json(result);
-    } catch (err) {
-      next(err);
-    }
+    return this.json({ data: result, message: 'Get User Sucessfully' }, 200);
   }
 }
