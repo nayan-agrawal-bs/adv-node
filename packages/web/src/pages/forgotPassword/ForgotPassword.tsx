@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import tapect_logo from '../../assets/images/tapect_logo.svg';
+import logo from '../../assets/images/logo.svg';
 import { Button, Link, Image, showToast, PageLoader } from 'design-web';
 import routes from 'shared/config/routes';
 import { Form as FormikForm, Formik, Field as FormikField } from 'formik';
@@ -61,12 +61,7 @@ const ForgotPassword: React.FC = () => {
             <div className="flex flex-col justify-center px-6 sm:py-2">
               <div className="mx-auto w-full flex flex-col items-center justify-center">
                 <a href="#">
-                  <Image
-                    src={tapect_logo}
-                    width={110}
-                    height={110}
-                    alt="logo"
-                  />
+                  <Image src={logo} width={110} height={110} alt="logo" />
                 </a>
                 <div className="mt-5 text-center">
                   <h1 className="font-lato text-lg font-bold text-black">
