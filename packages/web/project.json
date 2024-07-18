@@ -7,6 +7,107 @@
   "implicitDependencies": ["shared"],
   "// targets": "to see all targets run: nx show project web --web",
   "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/packages/web",
+        "webpackConfig": "packages/web/webpack.config.js",
+        "index": "packages/web/src/index.html",
+        "main": "packages/web/src/main.tsx",
+        "polyfills": "packages/web/src/polyfills.ts",
+        "tsConfig": "packages/web/tsconfig.app.json",
+        "styles": [
+          "packages/web/src/styles.scss",
+          "packages/web/src/assets/css/tailwind.css"
+        ],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "packages/web/src/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "favicon.ico",
+            "input": "packages/web/src",
+            "output": ""
+          }
+        ],
+        "scripts": [],
+        "buildLibsFromSource": true,
+        "maxWorkers": 8,
+        "extractCss": true,
+        "outputHashing": "all",
+        "optimization": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "packages/web/src/environments/environment.tsx",
+              "with": "packages/web/src/environments/environment.prod.tsx"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "extractCss": true,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "0.5mb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "staging": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "local": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "0.5mb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "outputs": {
+          "outputPath": "{options.outputPath}"
+        },
+        "defaultConfiguration": {
+          "name": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "options": {
+        "buildTarget": "web:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "web:build:production"
+        },
+        "staging": {
+          "buildTarget": "web:build:staging"
+        },
+        "local": {
+          "buildTarget": "web:build:local"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
     "type-check": {
       "executor": "nx:run-commands",
       "options": {
