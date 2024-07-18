@@ -1,5 +1,7 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
+import { I18nextProvider } from 'react-i18next';
+import i18n from 'localization';
 
 import App from './app/App';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -16,7 +18,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <ErrorBoundary>
-      <App />
+      <I18nextProvider i18n={i18n}>
+        <App />
+      </I18nextProvider>
     </ErrorBoundary>
   </StrictMode>
 );

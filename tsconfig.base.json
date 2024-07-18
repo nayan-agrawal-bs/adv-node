@@ -24,7 +24,8 @@
       "logger": ["./libs/logger/src/index.ts"],
       "mailer": ["./libs/mailer/src/index.ts"],
       "shared": ["./libs/shared/src/index.ts"],
-      "shared/*": ["./libs/shared/src/*"]
+      "shared/*": ["./libs/shared/src/*"],
+      "localization": ["libs/localization/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp", "scripts/module"]
