@@ -3,10 +3,10 @@ import { MailTransporter } from './mailTransporter';
 
 export class DummyTransporter extends MailTransporter {
   createTransport() {
-    return () => {
+    return {
       sendMail: (mailOptions: any) => {
         console.log('Sending email', mailOptions);
-      };
+      },
     };
   }
 }
