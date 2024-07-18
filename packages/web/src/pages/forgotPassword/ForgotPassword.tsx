@@ -65,7 +65,7 @@ const ForgotPassword: React.FC = () => {
                 </a>
                 <div className="mt-5 text-center">
                   <h1 className="font-lato text-lg font-bold text-black">
-                    Reset your Tapect password{' '}
+                    Reset your your password{' '}
                   </h1>
                   <p className="mt-5 font-poppins     text-center !leading-snug text-dark">
                     Enter your email and we&apos;ll send you instructions on how
@@ -110,7 +110,7 @@ const ForgotPassword: React.FC = () => {
                     </span>
                   </div>
                   <div className="text-center text-gray-600">
-                    Don&apos;t have a Tapect account?{' '}
+                    Don&apos;t have a Your account?{' '}
                     <Link
                       href={routes.singup}
                       className="text-primary underline"
