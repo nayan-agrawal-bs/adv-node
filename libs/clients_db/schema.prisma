@@ -99,3 +99,16 @@ model RolePermission {
 
   @@map("role_permissions")
 }
+
+model Estate {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  name         String  @unique
+  location     String
+  type         String?
+  numbeOfRooms String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("estate")
+}

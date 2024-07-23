@@ -31,7 +31,8 @@
     "precommit": "lint-staged",
     "prestart": "nx run-many --targets=codegen",
     "postinstall": "yarn codegen",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "nx test server"
   },
   "private": true,
   "packageManager": "yarn@1.22.19",
@@ -112,7 +113,7 @@
     "@testing-library/react": "15.0.6",
     "@testing-library/react-native": "~12.5.0",
     "@types/chroma-js": "2.4.4",
-    "@types/jest": "29.4.0",
+    "@types/jest": "^29.5.12",
     "@types/lodash": "4.17.6",
     "@types/node": "18.16.9",
     "@types/react": "18.3.1",
