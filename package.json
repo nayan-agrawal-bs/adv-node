@@ -73,7 +73,7 @@
     "react-select": "5.8.0",
     "react-simple-qr-code-scanner": "2.5.5",
     "react-toastify": "10.0.5",
-    "stylelint": "16.6.1",
+    "stylelint": "16.13.0",
     "tslib": "2.3.0",
     "uuidv4": "6.2.13",
     "yup": "1.4.0"
