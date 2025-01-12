@@ -68,7 +68,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "7.52.1",
     "react-i18next": "15.0.0",
-    "react-native": "0.74.1",
+    "react-native": "0.76.5",
     "react-native-webview": "^13.10.5",
     "react-select": "5.8.0",
     "react-simple-qr-code-scanner": "2.5.5",
