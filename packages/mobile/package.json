@@ -10,7 +10,7 @@
     "@testing-library/jest-native": "*",
     "@testing-library/react-native": "*",
     "react": "*",
-    "react-native": "*",
+    "react-native": "0.77.0",
     "react-native-svg": "*",
     "metro-config": "*"
   }
