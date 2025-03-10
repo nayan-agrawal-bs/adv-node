@@ -44,7 +44,7 @@
     "@tippyjs/react": "4.2.6",
     "apexcharts": "3.49.2",
     "aws-sdk": "2.1657.0",
-    "axios": "1.6.0",
+    "axios": "1.8.2",
     "chroma-js": "2.4.2",
     "cookie-universal": "2.2.2",
     "core-js": "3",
