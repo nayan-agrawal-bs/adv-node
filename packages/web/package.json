@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "react-perfect-scrollbar": "1.5.8",
-    "react-router-dom": "6.24.0",
+    "react-router-dom": "6.30.3",
     "design-web": "1.0.0",
     "shared": "1.0.0"
   },
